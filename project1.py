@@ -16,7 +16,6 @@ MachineHours = 0.0
 FinishHours = 0.0
 AssemblyHours = 0.0
 
-
 def button1Press():
     global InputQuantity, AssemblyCheck
     InputQuantity = float(userInput.get())
@@ -31,7 +30,7 @@ def CalculateLaborHours():
     MachineHours = MachineHours + (qty*3)
     FinishHours = FinishHours + qty
     AssemblyHours = AssemblyHours + qty
-    LaborCost = LaborCost + (MachineHours*20) + (FinishHours*30) + (AssemblyHours*15)
+    LaborCost = LaborCost + (MachineHours*20) + (FinishHours*30) + (AssemblyHours*15) + 10 
     CalculateCosts()
 
 def CalculateCosts():
