@@ -15,6 +15,9 @@ TotalQty = 0.0
 MachineHours = 0.0
 FinishHours = 0.0
 AssemblyHours = 0.0
+TotalMachineHours = 0.0
+TotalFinishHours = 0.0
+TotalAssemblyHours = 0.0
 
 def button1Press():
     global InputQuantity, AssemblyCheck
@@ -25,22 +28,40 @@ def button1Press():
         CalculateCosts()
 
 def CalculateLaborHours():
-    global MachineHours, FinishHours, AssemblyHours, InputQuantity, LaborCost
+    global AssemblyHours, InputQuantity
     qty = InputQuantity
-    MachineHours = MachineHours + (qty*3)
-    FinishHours = FinishHours + qty
     AssemblyHours = AssemblyHours + qty
-    LaborCost = LaborCost + (MachineHours*20) + (FinishHours*30) + (AssemblyHours*15) + 10 
     CalculateCosts()
 
 def CalculateCosts():
-    global MaterialCost, Sales, Profit, TotalQty, LaborCost, InputQuantity
+    global MaterialCost, Sales, Profit, TotalQty, LaborCost, InputQuantity, AssemblyCheck, MachineHours, FinishHours, AssemblyHours, TotalAssemblyHours, TotalFinishHours, TotalMachineHours
     qty = InputQuantity
+   
+    MachineHours = MachineHours + (qty*3)
+    FinishHours = FinishHours + qty
+    
     Sales = Sales + (qty*150)
     MaterialCost = MaterialCost + (qty*20)
     TotalQty = TotalQty + qty
+
+    if AssemblyCheck.get() == 1:
+        LaborCost = LaborCost + (MachineHours*20) + (FinishHours*30) + (AssemblyHours*15) + 10
+    else:
+        LaborCost = LaborCost + (MachineHours*20) + (FinishHours*30) + (AssemblyHours*15)
+
     Profit = Profit + (Sales - (MaterialCost + LaborCost))
+    TotalAssemblyHours = TotalAssemblyHours + AssemblyHours
+    TotalFinishHours = TotalFinishHours + FinishHours
+    TotalMachineHours = TotalMachineHours + MachineHours
+
+    ResetVariables()
     UpdateLabels()
+
+def ResetVariables():
+    global AssemblyHours, FinishHours, MachineHours
+    AssemblyHours = 0.0
+    FinishHours = 0.0
+    MachineHours = 0.0
 
 def UpdateLabels():
     global MaterialCost, Sales, Profit, TotalQty, LaborCost, MachineHours, FinishHours, AssemblyHours
@@ -49,9 +70,9 @@ def UpdateLabels():
     label4.config(text="Sales: $ " + str(Sales))
     label5.config(text="Profit: $ " + str(Profit))
     label6.config(text="Total Qty: " + str(TotalQty))
-    label7.config(text="Machinist Hours: " + str(MachineHours))
-    label8.config(text="Finishing Hours: " + str(FinishHours))
-    label9.config(text="Assembly Hours: " + str(AssemblyHours))
+    label7.config(text="Machinist Hours: " + str(TotalMachineHours))
+    label8.config(text="Finishing Hours: " + str(TotalFinishHours))
+    label9.config(text="Assembly Hours: " + str(TotalAssemblyHours))
 
 
 label1 = tkinter.Label(window, text="Quantity ")
